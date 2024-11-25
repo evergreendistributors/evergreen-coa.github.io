@@ -1,98 +1,60 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Body Styling */
+/* General body styles */
 body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    background-color: #f8f9fa;
-    color: #333;
+    margin: 0;
+    font-family: "Karma", sans-serif;
+    background: #fff;
 }
 
-/* Container */
-.container {
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px 0;
+/* Create the tile grid background */
+.tile-background {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* Adjust number of tiles per row */
+    grid-template-rows: repeat(10, 1fr); /* Adjust number of tiles per column */
+    height: 100vh;
+    width: 100%;
+    background: repeating-linear-gradient(45deg, #f3f3f3, #f3f3f3 10px, #e4e4e4 10px, #e4e4e4 20px); /* Light background pattern */
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-/* Header Styling */
-header {
-    background-color: #2c3e50;
-    color: #fff;
+/* Define each tile with different colors */
+.tile-background div:nth-child(odd) {
+    background-color: #FFBF00;
+}
+
+.tile-background div:nth-child(even) {
+    background-color: #00A7FF;
+}
+
+/* Content Section */
+.content {
+    position: relative;
+    z-index: 1;
     text-align: center;
-    padding: 20px 0;
+    padding: 100px 0;
 }
 
-header h1 {
-    font-size: 2rem;
-    font-weight: bold;
+h1 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-header p {
-    font-size: 1rem;
-    margin-top: 10px;
-    color: #dfe6e9;
-}
-
-/* Intro Section */
-.intro {
-    margin: 20px 0;
-    font-size: 1rem;
-    line-height: 1.8;
+p {
+    font-size: 1.2em;
     color: #555;
 }
 
-/* Reports Section */
-.reports h2 {
-    font-size: 1.5rem;
-    color: #2c3e50;
-    margin-bottom: 10px;
-    text-align: left;
-}
-
-/* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-table thead tr {
-    background-color: #2c3e50;
-    color: white;
-    text-align: left;
-}
-
-table th, table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-}
-
-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-table a {
-    color: #0074d9;
+.btn {
+    background-color: #FFBF00;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1em;
     text-decoration: none;
-    font-weight: bold;
+    border-radius: 5px;
 }
 
-table a:hover {
-    text-decoration: underline;
-}
-
-/* Footer Styling */
-footer {
-    background-color: #2c3e50;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 0.9rem;
+.btn:hover {
+    background-color: #00A7FF;
 }
