@@ -1,2 +1,2 @@
 # evergreen-coa.github.io
-COA for Evergreen Products
+COAs for Evergreen Products
