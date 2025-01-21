@@ -647,10 +647,8 @@
             const products = document.querySelectorAll('.grid > div');
             
             products.forEach(product => {
-                const productTitle = product.querySelector('h3').textContent.toLowerCase();
-                const productBatch = product.querySelector('p').textContent.toLowerCase();
-                
-                if (productTitle.includes(searchTerm) || productBatch.includes(searchTerm)) {
+                const productTitle = product.querySelector('h3').textContent.toLowerCase();                
+                if (productTitle.includes(searchTerm)) {
                     product.style.display = 'block';
                 } else {
                     product.style.display = 'none';
