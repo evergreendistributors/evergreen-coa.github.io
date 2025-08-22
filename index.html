@@ -82,7 +82,7 @@
             border-radius: 2px;
         }
         .results-count {
-            text-align: center;
+            text-center;
             margin: 16px 0;
             color: #6b7280;
             font-size: 0.9rem;
@@ -277,7 +277,7 @@
 
         // Remove duplicates and sort products alphabetically
         const uniqueProducts = products.reduce((acc, current) => {
-            const existing = acc.find(item => item.name === current.name && item.type === current.type);
+            const existing = acc.find(item => item.name === current.name);
             if (!existing) {
                 acc.push(current);
             }
@@ -348,26 +348,18 @@
             const searchInput = document.getElementById('searchInput');
             const searchTerm = searchInput.value.trim().toLowerCase();
             
-            console.log('Search term:', `"${searchTerm}"`); // Debug logging
-            
             let filtered = uniqueProducts;
             
             // Apply type filter first
             if (currentFilter !== 'all') {
                 filtered = filtered.filter(product => product.type === currentFilter);
-                console.log(`After type filter (${currentFilter}):`, filtered.length, 'products');
             }
             
             // Apply search filter
             if (searchTerm) {
                 filtered = filtered.filter(product => {
-                    const nameMatch = product.name.toLowerCase().includes(searchTerm);
-                    if (nameMatch) {
-                        console.log(`Match found: "${product.name}"`);
-                    }
-                    return nameMatch;
+                    return product.name.toLowerCase().includes(searchTerm);
                 });
-                console.log(`After search filter ("${searchTerm}"):`, filtered.length, 'products');
             }
             
             renderProducts(filtered, searchTerm);
@@ -405,13 +397,11 @@
                 
                 // Update current filter
                 currentFilter = e.target.dataset.filter;
-                console.log('Filter changed to:', currentFilter);
                 filterProducts();
             }
         });
 
         // Initialize
-        console.log('Total unique products loaded:', uniqueProducts.length);
         renderProducts();
     </script>
 </body>
