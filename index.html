@@ -76,6 +76,17 @@
             color: white;
             padding: 12px 0;
         }
+        .search-highlight {
+            background-color: yellow;
+            padding: 1px 2px;
+            border-radius: 2px;
+        }
+        .results-count {
+            text-center;
+            margin: 16px 0;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 
@@ -109,6 +120,9 @@
                 <span class="filter-chip" data-filter="hybrid">Hybrid</span>
                 <span class="filter-chip" data-filter="caps">Snow Caps</span>
             </div>
+
+            <!-- Results Counter -->
+            <div class="results-count" id="resultsCount"></div>
         </div>
 
         <!-- Products Grid -->
@@ -117,7 +131,7 @@
         </div>
 
         <!-- No Results Message -->
-                    <div class="no-results hidden" id="noResults">
+        <div class="no-results hidden" id="noResults">
             <h3 class="text-xl font-semibold mb-2">No products found</h3>
             <p>Try adjusting your search terms or filters</p>
         </div>
@@ -158,6 +172,7 @@
         const products = [
             // Regular Hemp Flowers
             { name: "Baccio", file: "baccio.pdf", type: "hybrid" },
+            { name: "Beignets", file: "beignets.pdf", type: "indica" },
             { name: "Berry Pie", file: "berry-pie.pdf", type: "sativa" },
             { name: "Birthday Cake", file: "birthday-cake.pdf", type: "indica" },
             { name: "Black Truffle", file: "black%20truffle.pdf", type: "indica" },
@@ -177,6 +192,7 @@
             { name: "Divine Banana", file: "divine-banana.pdf", type: "hybrid" },
             { name: "Donny Burger", file: "Donny-Burger-2.pdf", type: "indica" },
             { name: "Durban Poison", file: "durban-poison.pdf", type: "sativa" },
+            { name: "Forbidden Runtz", file: "forbidden-runtz.pdf", type: "hybrid" },
             { name: "G-Grape", file: "gmo%20grapes.pdf", type: "indica" },
             { name: "G-Punch!", file: "gelato-punch.pdf", type: "hybrid" },
             { name: "Gary Payton", file: "gary-payton.pdf", type: "hybrid" },
@@ -192,6 +208,7 @@
             { name: "Green Crack", file: "green-crack.pdf", type: "sativa" },
             { name: "Gruntz", file: "gruntz.pdf", type: "hybrid" },
             { name: "Gumbo", file: "gumbo.pdf", type: "indica" },
+            { name: "Hashburger", file: "hashburger.pdf", type: "indica" },
             { name: "Hawaiian Snowcone", file: "hawaiian-snowcone.pdf", type: "hybrid" },
             { name: "Ice Cream Cake", file: "ice-cream-cake.pdf", type: "indica" },
             { name: "Ice Cream Pie", file: "ice-cream-pie.pdf", type: "indica" },
@@ -245,15 +262,6 @@
             { name: "White Bugatti", file: "white-bugatti.pdf", type: "hybrid" },
             { name: "White Frost", file: "white-frost.pdf", type: "hybrid" },
             { name: "Z-Runtz", file: "z-runtz.pdf", type: "hybrid" },
-            { name: "Creme Brulee", file: "creme-brulee", type: "indica" },
-            { name: "Hashburger", file: "hashburger.pdf", type: "indica" },
-            { name: "Blue Dream Pie", file: "blue-dream-pie.pdf", type: "sativa" },
-            { name: "Forbidden Runtz", file: "forbidden-runtz.pdf", type: "hybrid" },
-
-
-
-
-
             
             // Snow Caps Products
             { name: "Chillato #41 CAPS", file: "gelato-41.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
@@ -265,17 +273,31 @@
             { name: "White Crack CAPS", file: "green-crack.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
             { name: "White Mango CAPS", file: "mango-mentality.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
             { name: "Winter Wonderland CAPS", file: "Papaya-Punch.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
-            
-            // Special entries
-            { name: "Beignets", file: "beignets.pdf", type: "indica" },
         ];
 
-        // Sort products alphabetically
-        products.sort((a, b) => a.name.localeCompare(b.name));
+        // Remove duplicates and sort products alphabetically
+        const uniqueProducts = products.reduce((acc, current) => {
+            const existing = acc.find(item => item.name === current.name && item.type === current.type);
+            if (!existing) {
+                acc.push(current);
+            }
+            return acc;
+        }, []);
+
+        uniqueProducts.sort((a, b) => a.name.localeCompare(b.name));
 
         let currentFilter = 'all';
 
-        function createProductCard(product) {
+        function highlightSearchTerm(text, searchTerm) {
+            if (!searchTerm) return text;
+            
+            const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+
+        function createProductCard(product, searchTerm = '') {
+            const highlightedName = highlightSearchTerm(product.name, searchTerm);
+            
             const buttons = product.file2 
                 ? `<a href="/evergreen-coa.github.io/coas/${product.file}" class="inline-block bg-green-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-green-700 transition-colors mr-2">
                      Flower COA
@@ -288,9 +310,9 @@
                    </a>`;
 
             return `
-                <div class="product-card bg-white rounded-lg shadow-md p-6" data-type="${product.type}">
+                <div class="product-card bg-white rounded-lg shadow-md p-6" data-type="${product.type}" data-name="${product.name.toLowerCase()}">
                     <div class="text-center">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">${product.name}</h3>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">${highlightedName}</h3>
                         <div class="mt-4">
                             ${buttons}
                         </div>
@@ -299,44 +321,79 @@
             `;
         }
 
-        function renderProducts(productsToRender = products) {
+        function renderProducts(productsToRender = uniqueProducts, searchTerm = '') {
             const grid = document.getElementById('productsGrid');
             const noResults = document.getElementById('noResults');
+            const resultsCount = document.getElementById('resultsCount');
             
             if (productsToRender.length === 0) {
                 grid.innerHTML = '';
                 noResults.classList.remove('hidden');
+                resultsCount.textContent = 'No results found';
             } else {
-                grid.innerHTML = productsToRender.map(createProductCard).join('');
+                grid.innerHTML = productsToRender.map(product => createProductCard(product, searchTerm)).join('');
                 noResults.classList.add('hidden');
+                
+                // Update results count
+                const totalProducts = uniqueProducts.length;
+                if (productsToRender.length === totalProducts) {
+                    resultsCount.textContent = `Showing all ${totalProducts} products`;
+                } else {
+                    resultsCount.textContent = `Showing ${productsToRender.length} of ${totalProducts} products`;
+                }
             }
-            
-            // Update product count
-            document.getElementById('total-products').textContent = products.length;
         }
 
         function filterProducts() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.trim().toLowerCase();
             
-            let filtered = products;
+            console.log('Search term:', `"${searchTerm}"`); // Debug logging
             
-            // Apply type filter
+            let filtered = uniqueProducts;
+            
+            // Apply type filter first
             if (currentFilter !== 'all') {
                 filtered = filtered.filter(product => product.type === currentFilter);
+                console.log(`After type filter (${currentFilter}):`, filtered.length, 'products');
             }
             
             // Apply search filter
             if (searchTerm) {
-                filtered = filtered.filter(product => 
-                    product.name.toLowerCase().includes(searchTerm)
-                );
+                filtered = filtered.filter(product => {
+                    const nameMatch = product.name.toLowerCase().includes(searchTerm);
+                    if (nameMatch) {
+                        console.log(`Match found: "${product.name}"`);
+                    }
+                    return nameMatch;
+                });
+                console.log(`After search filter ("${searchTerm}"):`, filtered.length, 'products');
             }
             
-            renderProducts(filtered);
+            renderProducts(filtered, searchTerm);
+        }
+
+        // Debounce function to avoid excessive filtering
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
         }
 
         // Event listeners
-        document.getElementById('searchInput').addEventListener('input', filterProducts);
+        const debouncedFilter = debounce(filterProducts, 150);
+        document.getElementById('searchInput').addEventListener('input', debouncedFilter);
+
+        // Clear search when clicking the input (optional UX improvement)
+        document.getElementById('searchInput').addEventListener('focus', function() {
+            this.select();
+        });
 
         document.getElementById('filterChips').addEventListener('click', (e) => {
             if (e.target.classList.contains('filter-chip')) {
@@ -348,11 +405,13 @@
                 
                 // Update current filter
                 currentFilter = e.target.dataset.filter;
+                console.log('Filter changed to:', currentFilter);
                 filterProducts();
             }
         });
 
         // Initialize
+        console.log('Total unique products loaded:', uniqueProducts.length);
         renderProducts();
     </script>
 </body>
