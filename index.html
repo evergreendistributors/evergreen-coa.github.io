@@ -168,9 +168,10 @@
     </footer>
 
     <script>
-        // Product data (deduplicated and organized)
+        // Product data
         const products = [
             // Regular Hemp Flowers
+            { name: "Apricot Scone", file: "apricot-scone.pdf", type: "hybrid" },
             { name: "Baccio", file: "baccio.pdf", type: "hybrid" },
             { name: "Beignets", file: "beignets.pdf", type: "indica" },
             { name: "Berry Pie", file: "berry-pie.pdf", type: "sativa" },
@@ -183,7 +184,9 @@
             { name: "Blue Mamba", file: "blue-mamba.pdf", type: "indica" },
             { name: "Blueberry Cheesecake", file: "blueberry-cheesecake.pdf", type: "sativa" },
             { name: "Cap Junky", file: "cap-junky.pdf", type: "hybrid" },
+            { name: "Carbon Fiber", file: "carbon-fiber.pdf", type: "hybrid" },
             { name: "Caribbean Breeze", file: "caribbean-breeze.pdf", type: "sativa" },
+            { name: "Cereal Milk", file: "cereal-milk.pdf", type: "hybrid" },
             { name: "Cheetah Piss", file: "cheetah-piss.pdf", type: "hybrid" },
             { name: "Citrus Blast", file: "citrus-blast.pdf", type: "sativa" },
             { name: "Cookies & Cream", file: "cookies-n-cream.pdf", type: "hybrid" },
@@ -197,6 +200,7 @@
             { name: "G-Punch!", file: "gelato-punch.pdf", type: "hybrid" },
             { name: "Gary Payton", file: "gary-payton.pdf", type: "hybrid" },
             { name: "Gary Poppins", file: "gary-runtz.pdf", type: "hybrid" },
+            { name: "Gas Can", file: "gas-can.pdf", type: "indica" },
             { name: "Gelatti Cake", file: "gelatti-cake.pdf", type: "sativa" },
             { name: "Gelato #41", file: "gelato-41.pdf", type: "hybrid" },
             { name: "Girl Scout Cookies", file: "girl-scout-cookies.pdf", type: "hybrid" },
@@ -219,10 +223,12 @@
             { name: "Kill Bill", file: "kill-bill.pdf", type: "indica" },
             { name: "Kush Crasher", file: "kush-crasher.pdf", type: "indica" },
             { name: "LA Pop Rocks", file: "la-pop-rocks.heic", type: "indica" },
+            { name: "Lambo OG", file: "lambo-og.pdf", type: "sativa" },
             { name: "Lemon Drop", file: "lemon-drop.pdf", type: "sativa" },
             { name: "Lemon Pie", file: "lemon-pie.pdf", type: "sativa" },
             { name: "Lemonade", file: "lemonade.pdf", type: "sativa" },
             { name: "Lunch Money", file: "lunch-money.pdf", type: "hybrid" },
+            { name: "Mac 1", file: "mac1.pdf", type: "hybrid" },
             { name: "Mango Mentality", file: "mango-mentality.pdf", type: "hybrid" },
             { name: "Mochi", file: "mochi.pdf", type: "hybrid" },
             { name: "Muel Fuel", file: "mule-fuel.pdf", type: "hybrid" },
@@ -248,6 +254,7 @@
             { name: "Sour Diesel", file: "sour-diesel.pdf", type: "sativa" },
             { name: "Sour Lemons", file: "sour%20lemons.pdf", type: "sativa" },
             { name: "Strawberry Cough", file: "strawberry-cough.pdf", type: "sativa" },
+            { name: "Super Jack", file: "super-jack.pdf", type: "sativa" },
             { name: "Super Silver Haze", file: "Super-Silver-Haze.pdf", type: "sativa" },
             { name: "Superboof", file: "super%20boof.pdf", type: "hybrid" },
             { name: "Supreme Lee High", file: "supreme-lee-high.pdf", type: "indica" },
@@ -262,36 +269,22 @@
             { name: "White Bugatti", file: "white-bugatti.pdf", type: "hybrid" },
             { name: "White Frost", file: "white-frost.pdf", type: "hybrid" },
             { name: "Z-Runtz", file: "z-runtz.pdf", type: "hybrid" },
-            { name: "Lambo OG", file: "lambo-og.pdf", type: "sativa" },
-            { name: "Cereal Milk", file: "cereal-milk.pdf", type: "hybrid" },
-            { name: "Apricot Scoe", file: "apricot-scone.pdf", type: "hybrid" },
-            { name: "Carbon Fiber", file: "carbon-fiber.pdf", type: "hybrid" },
-            { name: "Gas Can", file: "gas-can.pdf", type: "indica" },
-            { name: "Mac 1", file: "mac1.pdf", type: "hybrid" },
-            { name: "Super Jack", file: "super-jack.pdf", type: "sativa" },
 
-
-
-
-
-
-            
             // Snow Caps Products
             { name: "Chillato #41 CAPS", file: "gelato-41.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
             { name: "Everest CAPS", file: "sour%20lemons.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
+            { name: "Frosty Cereal CAPS", file: "cereal-milk.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
+            { name: "Iced Out Cake CAPS", file: "ice-cream-cake.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
             { name: "Lemondrop CAPS", file: "lemonade.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
             { name: "Sno-Mo-Bill CAPS", file: "kill-bill.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
+            { name: "Snow Day CAPS", file: "lunch-money.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
             { name: "Snowchi CAPS", file: "mochi.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
+            { name: "Snopwiez CAPS", file: "sharpiez.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
             { name: "The Whitehouse CAPS", file: "obama-runtz.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
+            { name: "Walter White CAPS", file: "og-chem.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
             { name: "White Crack CAPS", file: "green-crack.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
             { name: "White Mango CAPS", file: "mango-mentality.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
             { name: "Winter Wonderland CAPS", file: "Papaya-Punch.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
-            { name: "Snopwiez CAPS", file: "sharpiez.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
-            { name: "Iced Out Cake CAPS", file: "ice-cream-cake.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
-            { name: "Walter White CAPS", file: "og-chem.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
-            { name: "Frosty Cereal CAPS", file: "cereal-milk.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
-            { name: "Snow Day CAPS", file: "lunch-money.pdf", file2: "SnowCaps-iso.pdf", type: "caps" },
-
         ];
 
         // Remove duplicates and sort products alphabetically
@@ -318,13 +311,13 @@
             const highlightedName = highlightSearchTerm(product.name, searchTerm);
             
             const buttons = product.file2 
-                ? `<a href="/evergreen-coa.github.io/coas/${product.file}" class="inline-block bg-green-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-green-700 transition-colors mr-2">
+                ? `<a href="coas/${product.file}" class="inline-block bg-green-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-green-700 transition-colors mr-2">
                      Flower COA
                    </a>
-                   <a href="/evergreen-coa.github.io/coas/${product.file2}" class="inline-block bg-blue-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                   <a href="coas/${product.file2}" class="inline-block bg-blue-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-blue-700 transition-colors">
                      Caps COA
                    </a>`
-                : `<a href="/evergreen-coa.github.io/coas/${product.file}" class="inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                : `<a href="coas/${product.file}" class="inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
                      View COA
                    </a>`;
 
@@ -401,7 +394,7 @@
         const debouncedFilter = debounce(filterProducts, 150);
         document.getElementById('searchInput').addEventListener('input', debouncedFilter);
 
-        // Clear search when clicking the input (optional UX improvement)
+        // Clear search when clicking the input
         document.getElementById('searchInput').addEventListener('focus', function() {
             this.select();
         });
